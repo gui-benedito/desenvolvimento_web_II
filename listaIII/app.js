@@ -14,6 +14,14 @@ app.get('/tarefa', (req, res) => {
 
 app.post('/tarefa', (req, res) => {
     const tarefa = req.body
+    if(tarefa.id === undefined){
+        if(!tarefas.length){
+            tarefa.id = 0
+        } else {
+            const lastId = tarefas[tarefas.length-1]['id']
+            tarefa.id = lastId + 1
+        }
+    }
     const tarefaExistente = tarefas.some((t) => t['nome'] === tarefa['nome'] || t['id'] === tarefa['id'])
     if (tarefaExistente) {
         return res.json({ message: "Já existe tarefa com esse nome ou id" })
