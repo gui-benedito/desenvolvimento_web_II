@@ -6,14 +6,18 @@
     <title>Editar Tarefa</title>
 </head>
 <body>
-    <h1>Editar dados da tarefa: <%= tarefa.nome %></h1>
-    <form id="edit-form">
-        <input type="hidden" id="tarefa-id" value="<%= tarefa.id %>">
-        <label>Nome: <input type="text" id="tarefa-nome" value="<%= tarefa.nome %>"></label><br>
-        <label>Status: <input type="checkbox" id="tarefa-status" <%= tarefa.status ? 'checked' : '' %>></label><br>
-        <button type="submit">Enviar</button>
-    </form>
-    <a href="/"><button>Voltar</button></a>
+    <% if (tarefa) { %>
+        <h1>Editar dados da tarefa: <%= tarefa.nome %></h1>
+        <form id="edit-form">
+            <input type="hidden" id="tarefa-id" value="<%= tarefa.id %>">
+            <label>Nome: <input type="text" id="tarefa-nome" value="<%= tarefa.nome %>"></label><br>
+            <label>Status: <input type="checkbox" id="tarefa-status" <%= tarefa.status ? 'checked' : '' %>></label><br>
+            <button type="submit">Enviar</button>
+        </form>
+    <% } else { %>
+        <h1>Tarefa não encontrada.</h1>
+        <a href="/">Voltar</a>
+    <% } %>
 
     <script>
         document.getElementById('edit-form').addEventListener('submit', function(event) {

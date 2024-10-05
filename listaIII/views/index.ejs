@@ -12,25 +12,67 @@
 </head>
 <body>
     <h1>Lista de tarefas</h1>
-    <ul id="tarefas-lista">
-        <% tarefas.forEach((tarefa) => { %>
-            <li id="tarefa-<%= tarefa.id %>">
-                <%= tarefa.nome %> 
-                <!-- Botão de edição -->
-                <form action="/tarefa/<%= tarefa.id %>/editar" method="GET">
-                    <button type="submit">Editar</button>
-                </form>
 
-                <!-- Botão de exclusão com fetch -->
-                <button onclick="deletarTarefa('<%= tarefa.id %>')">Excluir</button>
-            </li>
-        <% }) %>
+    <form id="tarefa-form">
+        <label>Nome: <input type="text" id="nome" name="nome" required></label><br>
+        <label>Status: <input type="checkbox" id="status"></label><br>
+        <button type="submit">Enviar</button>
+    </form>
+
+    <!-- Filtros para exibir tarefas por status -->
+    <h4>Filtrar Tarefas</h4>
+    <label>
+        <input type="checkbox" id="filter-true"> Verdadeiro
+    </label>
+    <label>
+        <input type="checkbox" id="filter-false"> Falso
+    </label>
+    <button onclick="filtrarTarefas()">Aplicar Filtro</button>
+
+    <ul id="tarefas-lista">
+        <!-- A lista de tarefas será atualizada dinamicamente -->
     </ul>
 
-    Link para adicionar nova tarefa
-    <a href="/tarefa/novo"><button>Adicionar Tarefa</button></a>
-
     <script>
+        // Função para carregar tarefas com ou sem filtros
+        function filtrarTarefas() {
+            const filterTrue = document.getElementById('filter-true').checked;
+            const filterFalse = document.getElementById('filter-false').checked;
+
+            let queryString = '';
+
+            if (filterTrue && !filterFalse) {
+                queryString = '?status=true';
+            } else if (!filterTrue && filterFalse) {
+                queryString = '?status=false';
+            }
+
+            fetch(`/tarefa${queryString}`)
+                .then(response => response.json())
+                .then(data => {
+                    const tarefasLista = document.getElementById('tarefas-lista');
+                    tarefasLista.innerHTML = ''; // Limpa a lista de tarefas
+
+                    // Atualiza a lista de tarefas
+                    data.forEach(tarefa => {
+                        const li = document.createElement('li');
+                        li.id = `tarefa-${tarefa.id}`;
+                        li.innerHTML = `
+                            ${tarefa.nome}
+                            <form action="/tarefa/${tarefa.id}/editar" method="GET">
+                                <button type="submit">Editar</button>
+                            </form>
+                            <button onclick="deletarTarefa('${tarefa.id}')">Excluir</button>
+                        `;
+                        tarefasLista.appendChild(li);
+                    });
+                })
+                .catch(error => {
+                    console.error('Erro ao carregar as tarefas:', error);
+                });
+        }
+
+        // Função para deletar uma tarefa
         function deletarTarefa(id) {
             if (confirm('Tem certeza que deseja excluir essa tarefa?')) {
                 fetch(`/tarefa/${id}`, {
@@ -40,8 +82,7 @@
                 .then(data => {
                     if (data.message) {
                         alert(data.message);
-                        // Remove a tarefa da lista no front-end
-                        document.getElementById(`tarefa-${id}`).remove();
+                        document.getElementById(`tarefa-${id}`).remove()
                     }
                 })
                 .catch(error => {
@@ -49,6 +90,43 @@
                 });
             }
         }
+
+        // Captura o evento de envio do formulário
+        document.getElementById('tarefa-form').addEventListener('submit', function(event) {
+            event.preventDefault(); // Impede o envio padrão do formulário
+            
+            // Obtém os valores do formulário
+            const nome = document.getElementById('nome').value;
+            const status = document.getElementById('status').checked; // Checkbox retorna true ou false
+
+            // Realiza a requisição fetch
+            fetch('http://localhost:5000/tarefa', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    nome: nome,
+                    status: status
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data); // Para depuração
+
+                // Exibe uma mensagem de sucesso
+                alert(data.message);
+
+                // Redireciona para a página inicial
+                window.location.href = '/';
+            })
+            .catch(error => {
+                console.error('Erro:', error);
+            });
+        });
+
+        // Carrega todas as tarefas ao carregar a página
+        window.onload = filtrarTarefas;
     </script>
 </body>
 </html>

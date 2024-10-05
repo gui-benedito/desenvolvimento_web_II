@@ -17,8 +17,13 @@ app.get('/tarefa/novo', (req, res) => {
 })
 
 app.get('/tarefa/:id/editar', (req, res) => {
-    const id = req.params.id
-    res.render('edit', { tarefa: tarefas[id], id: id })
+    const id = parseInt(req.params.id)
+    const tarefa = tarefas.find(t => t.id === id)
+
+    if (!tarefa) {
+        return res.status(404).send('Tarefa não encontrada')
+    }
+    res.render('edit', { tarefa })
 })
 
 app.get('/tarefa', (req, res) => {
