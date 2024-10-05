@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tarefas</title>
+    <style>
+        form {
+            display: inline;
+        }
+    </style>
+</head>
+<body>
+    <h1>Lista de tarefas</h1>
+    <ul id="tarefas-lista">
+        <% tarefas.forEach((tarefa) => { %>
+            <li id="tarefa-<%= tarefa.id %>">
+                <%= tarefa.nome %> 
+                <!-- Botão de edição -->
+                <form action="/tarefa/<%= tarefa.id %>/editar" method="GET">
+                    <button type="submit">Editar</button>
+                </form>
+
+                <!-- Botão de exclusão com fetch -->
+                <button onclick="deletarTarefa('<%= tarefa.id %>')">Excluir</button>
+            </li>
+        <% }) %>
+    </ul>
+
+    Link para adicionar nova tarefa
+    <a href="/tarefa/novo"><button>Adicionar Tarefa</button></a>
+
+    <script>
+        function deletarTarefa(id) {
+            if (confirm('Tem certeza que deseja excluir essa tarefa?')) {
+                fetch(`/tarefa/${id}`, {
+                    method: 'DELETE'
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.message) {
+                        alert(data.message);
+                        // Remove a tarefa da lista no front-end
+                        document.getElementById(`tarefa-${id}`).remove();
+                    }
+                })
+                .catch(error => {
+                    console.error('Erro ao deletar a tarefa:', error);
+                });
+            }
+        }
+    </script>
+</body>
+</html>

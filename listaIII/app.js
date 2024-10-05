@@ -8,12 +8,36 @@ app.use(express.json())
 
 let tarefas = []
 
+app.get('/', (req, res) => {
+    res.render('index', { tarefas: tarefas})
+})
+
+app.get('/tarefa/novo', (req, res) => {
+    res.render('forms')
+})
+
+app.get('/tarefa/:id/editar', (req, res) => {
+    const id = req.params.id
+    res.render('edit', { tarefa: tarefas[id], id: id })
+})
+
 app.get('/tarefa', (req, res) => {
-    res.json(tarefas)
+    const statusQuery = req.query.status
+    let tarefasFiltradas
+    if (statusQuery !== undefined) {
+        const statusBooleano = statusQuery === 'true'
+        tarefasFiltradas = tarefas.filter(tarefa => tarefa.status === statusBooleano)
+    } else {
+        tarefasFiltradas = tarefas
+    }
+    res.json(tarefasFiltradas)
 })
 
 app.post('/tarefa', (req, res) => {
-    const tarefa = req.body
+    const tarefa = {
+        nome: req.body.nome,
+        status: req.body.status || false
+    }
     if(tarefa.id === undefined){
         if(!tarefas.length){
             tarefa.id = 0
@@ -30,22 +54,23 @@ app.post('/tarefa', (req, res) => {
         tarefa.status = false
     }
     tarefas.push(tarefa)
-    res.json({ message: "Tarefa criada com sucesso" })
+    res.json({ message: "Tarefa criada com sucesso"})
 })
 
 app.put('/tarefa/:id', (req, res) => {
-    const id = parseInt(req.params.id)
-    const tarefaAtualizada = req.body
-    if (tarefaAtualizada.status === undefined) {
-        tarefaAtualizada.status = false
+    const id = Number(req.params.id)
+    const tarefaAtualizada = {
+        id: id,
+        nome: req.body.nome,
+        status: req.body.status 
     }
-    if(id !== tarefaAtualizada.id){
-        return res.json({message: "Id diferentes"})
+    if (id !== tarefaAtualizada.id) {
+        return res.json({ message: "Id diferentes" })
     }
-    const index = tarefas.findIndex((t) => t.id == id)
-    if(index >= 0){
-        tarefas[index] = tarefaAtualizada
-        return res.json({message: "Tarefa atualizada com sucesso", tarefaAtualizada})
+    const index = tarefas.findIndex(t => t.id == id)
+    if (index >= 0) {
+        tarefas[index] = tarefaAtualizada;
+        return res.json({ message: "Tarefa atualizada com sucesso"})
     } else {
         return res.json({ message: 'Tarefa não encontrada' })
     }
@@ -54,11 +79,12 @@ app.put('/tarefa/:id', (req, res) => {
 app.delete('/tarefa/:id', (req, res) => {
     const id = parseInt(req.params.id)
     const index = tarefas.findIndex((t) => t.id == id)
-    if(index < 0){
-        return res.json({message: "Nenhuma tarefa encontrada"})
+
+    if (index < 0) {
+        return res.status(404).json({ message: 'Nenhuma tarefa encontrada' })
     } else {
         tarefas.splice(index, 1)
-        return res.json({message: "Tarefa deletada com sucesso"})
+        return res.json({ message: 'Tarefa deletada com sucesso' })
     }
 })
 

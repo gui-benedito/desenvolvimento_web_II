@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Tarefa</title>
+</head>
+<body>
+    <h1>Editar dados da tarefa: <%= tarefa.nome %></h1>
+    <form id="edit-form">
+        <input type="hidden" id="tarefa-id" value="<%= tarefa.id %>">
+        <label>Nome: <input type="text" id="tarefa-nome" value="<%= tarefa.nome %>"></label><br>
+        <label>Status: <input type="checkbox" id="tarefa-status" <%= tarefa.status ? 'checked' : '' %>></label><br>
+        <button type="submit">Enviar</button>
+    </form>
+    <a href="/"><button>Voltar</button></a>
+
+    <script>
+        document.getElementById('edit-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const id = document.getElementById('tarefa-id').value;
+            const nome = document.getElementById('tarefa-nome').value;
+            const status = document.getElementById('tarefa-status').checked; // Pegando o status do checkbox
+
+            fetch(`http://localhost:5000/tarefa/${id}`, {
+                method: 'PUT', // Usar PUT para atualização
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    id: id,
+                    nome: nome,
+                    status: status
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.message) {
+                    alert(data.message); // Exibe a mensagem retornada pelo backend
+                }
+
+                // Redireciona para a página desejada após criar a tarefa
+                window.location.href = '/'; // Altere a rota conforme necessário
+            })
+            .catch(error => {
+                console.error('Erro:', error);
+            });
+        });
+    </script>
+</body>
+</html>
