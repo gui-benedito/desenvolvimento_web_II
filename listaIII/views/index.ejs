@@ -4,14 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tarefas</title>
-    <style>
-        form {
-            display: inline;
-        }
-    </style>
+    <link href="/css/style.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-    <h1>Lista de tarefas</h1>
+    <h2>Adicionar tarefa</h2>
 
     <form id="tarefa-form">
         <label>Nome: <input type="text" id="nome" name="nome" required></label><br>
@@ -20,16 +16,20 @@
     </form>
 
     <!-- Filtros para exibir tarefas por status -->
-    <h4>Filtrar Tarefas</h4>
-    <label>
-        <input type="checkbox" id="filter-true"> Verdadeiro
-    </label>
-    <label>
-        <input type="checkbox" id="filter-false"> Falso
-    </label>
-    <button onclick="filtrarTarefas()">Aplicar Filtro</button>
+    <div class="filtro-container">
+        <h4>Filtrar Tarefas</h4>
+        <label>
+            <input type="checkbox" id="filter-true"> Verdadeiro
+        </label>
+        <label>
+            <input type="checkbox" id="filter-false"> Falso
+        </label>
+        <button onclick="filtrarTarefas()">Aplicar Filtro</button>
+    </div>
 
+    <h3>Tarefas</h3>
     <ul id="tarefas-lista">
+        
         <!-- A lista de tarefas será atualizada dinamicamente -->
     </ul>
 
@@ -127,6 +127,7 @@
 
         // Carrega todas as tarefas ao carregar a página
         window.onload = filtrarTarefas;
+        document.getElementById('nome').focus()
     </script>
 </body>
 </html>
