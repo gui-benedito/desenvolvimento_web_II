@@ -1,4 +1,5 @@
 import { Fornecedor } from "../models/Fornecedor";
+import { Produto } from "../models/Produto";
 
 export const fornecedorController = {
     // POST /fornecedor
@@ -20,7 +21,9 @@ export const fornecedorController = {
     // GET /fornecedor
     show: async (req, res) => {
         try {
-            const fornecedor = await Fornecedor.findAll()
+            const fornecedor = await Fornecedor.findAll({
+                include: Produto
+            })
             return res.status(201).json(fornecedor)
         } catch (error) {
             console.error('Erro ao encontrar produtos:', error)

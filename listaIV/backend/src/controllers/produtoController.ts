@@ -1,13 +1,15 @@
+import { Fornecedor } from '../models/Fornecedor';
 import { Produto } from '../models/Produto';
 
 export const produtoController = {
     // POST /produto
     save: async (req, res) => {
         try {
-            const { Prod_nome, Prod_preco } = req.body
+            const { Prod_nome, Prod_preco, Forn_id } = req.body
             const produtos = await Produto.create({
                 Prod_nome, 
-                Prod_preco
+                Prod_preco,
+                Forn_id
               });
               
               return res.status(201).json(produtos);
@@ -21,7 +23,9 @@ export const produtoController = {
     // GET /produto
     show: async (req, res) => {
         try {
-            const produtos = await Produto.findAll()
+            const produtos = await Produto.findAll({
+                include: Fornecedor
+            })
             return res.status(201).json(produtos)
         } catch (error) {
             console.error('Erro ao encontrar produtos:', error)

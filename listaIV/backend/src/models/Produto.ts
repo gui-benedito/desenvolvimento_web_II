@@ -1,4 +1,4 @@
-import { Table, Column, Model, DataType, BelongsToMany } from 'sequelize-typescript';
+import { Table, Column, Model, DataType, BelongsToMany, ForeignKey, AllowNull, HasOne, BelongsTo } from 'sequelize-typescript';
 import { Fornecedor } from './Fornecedor';
 import { Fornecedor_Produto } from './Fornecedor_Produto';
 
@@ -27,6 +27,13 @@ export class Produto extends Model {
     })
     Prod_preco!: number;
 
-    @BelongsToMany(() => Fornecedor, () => Fornecedor_Produto)
-    Fornecedores!: Fornecedor[];
+    @ForeignKey(() => Fornecedor)
+    @Column({
+        type: DataType.INTEGER,
+        allowNull: false
+    })
+    Forn_id: number
+
+    @BelongsTo(() => Fornecedor)
+    Fornecedor!: Fornecedor;
 }
