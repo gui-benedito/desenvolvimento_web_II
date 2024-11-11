@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Produtos</title>
+    <script src="/js/editarProduto.js" defer></script>
+</head>
+<body>
+    <h2>Produtos</h2>
+    <a href="/produto"><button>voltar</button></a>
+    <form id="editar-produto">
+        <input type="hidden" id="inId" value="<%= produto.Prod_cod %>">
+        <div>
+            <label for="inNome">Nome:</label>
+            <input type="text" id="inNome" required value="<%= produto.Prod_nome %>">
+        </div>
+        <div>
+            <label for="inPreco">Preço:</label>
+            <input type="number" id="inPreco" required value="<%= produto.Prod_preco %>">
+        </div>
+        <div>
+            <select name="inFornecedor" id="inFornecedor">
+                <% fornecedores.forEach(fornecedor => { %>
+                    <option value="<%= fornecedor.Forn_id %>" 
+                        <%= fornecedor.Forn_id === produto.Forn_id ? 'selected' : '' %>
+                    >
+                        <%= fornecedor.Forn_nome %>
+                    </option>
+                <% }) %>
+            </select>
+        </div>
+        <div>
+            <input type="submit" value="Editar">
+        </div>
+    </form>
+</body>
+</html>

@@ -5,18 +5,18 @@ export const produtoController = {
     // POST /produto
     save: async (req, res) => {
         try {
-            const { Prod_nome, Prod_preco, Forn_id } = req.body
-            const produtos = await Produto.create({
+            const { Prod_nome, Prod_preco, Forn_id } = req.body;
+            const produto = await Produto.create({
                 Prod_nome, 
                 Prod_preco,
                 Forn_id
-              });
-              
-              return res.status(201).json(produtos);
+            });
+
+            return res.status(201).json({ success: true, produto });
         }
-        catch(error){
-            console.error('Erro ao criar produto:', error)
-            return res.status(500).json({ error: 'Internal server error' })
+        catch(error) {
+            console.error('Erro ao criar produto:', error);
+            return res.status(500).json({ success: false, error: 'Internal server error' });
         }
     },
 
@@ -50,30 +50,29 @@ export const produtoController = {
 
     // PUT /produto/:id
     update: async (req, res) => {
-        const { id } =  req.params
-        const { Prod_nome, Prod_preco } = req.body
+        const { id } = req.params;
+        const { Forn_nome } = req.body;
         try {
-            const produtoAtual = await Produto.findByPk(+id)
-
-            const produtoAtualizado = {
-                Prod_nome: Prod_nome !== undefined ? Prod_nome : produtoAtual.Prod_nome,
-                Prod_preco: Prod_preco !== undefined ? Prod_preco : produtoAtual.Prod_preco
-            }
-
-            const [atualiza] = await Produto.update(produtoAtualizado, {
-                where: { Prod_cod: id }
-            })
-
+            const fornecedorAtual = await Fornecedor.findByPk(+id);
+    
+            const fornecedorAtualizado = {
+                Forn_nome: Forn_nome !== undefined ? Forn_nome : fornecedorAtual.Forn_nome,
+            };
+    
+            const [atualiza] = await Fornecedor.update(fornecedorAtualizado, {
+                where: { Forn_id: id }
+            });
+    
             if (atualiza) {
-                const produtoAtualizado = await Produto.findOne({ where: { Prod_cod: id } });
-                return res.status(200).json(produtoAtualizado);
+                const fornecedorAtualizado = await Fornecedor.findOne({ where: { Forn_id: id } });
+                return res.status(200).json({ success: true, fornecedorAtualizado: fornecedorAtualizado });
             } else {
                 return res.status(400).json({ error: "Nenhuma alteração foi realizada." });
             }
-
+    
         } catch (error) {
-            console.error('Erro ao encontrar produtos:', error)
-            return res.status(500).json({ error: 'Internal server error' })
+            console.error('Erro ao atualizar fornecedor:', error);
+            return res.status(500).json({ error: 'Erro interno no servidor' });
         }
     },
 

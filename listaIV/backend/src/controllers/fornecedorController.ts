@@ -10,7 +10,7 @@ export const fornecedorController = {
                 Forn_nome, 
               });
               
-              return res.status(201).json(fornecedor);
+              return res.status(201).json({success: true, fornecedor: fornecedor});
         }
         catch(error){
             console.error('Erro ao criar produto:', error)
@@ -63,7 +63,7 @@ export const fornecedorController = {
 
             if (atualiza) {
                 const fornecedorAtualizado = await Fornecedor.findOne({ where: { Forn_id: id } });
-                return res.status(200).json(fornecedorAtualizado);
+                return res.status(200).json({success: true, fornecedorAtualizado: fornecedorAtualizado});
             } else {
                 return res.status(400).json({ error: "Nenhuma alteração foi realizada." });
             }
