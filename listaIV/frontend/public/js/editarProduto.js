@@ -5,6 +5,7 @@ frm.addEventListener('submit', async (e) => {
 
     const nome = frm.inNome.value;
     const preco = frm.inPreco.value;
+    const quantidade = frm.inQuantidade.value
     const fornecedor = frm.inFornecedor.value;
     const id = +frm.inId.value
 
@@ -12,7 +13,7 @@ frm.addEventListener('submit', async (e) => {
 
     if(!confirma) return
 
-    if (!nome || !preco || !fornecedor) {
+    if (!nome || !preco || !fornecedor || !quantidade) {
         alert("Por favor, preencha todos os campos.");
         return;
     }
@@ -20,6 +21,7 @@ frm.addEventListener('submit', async (e) => {
     const produtoData = {
         Prod_nome: nome, 
         Prod_preco: preco,
+        Prod_quantidade: quantidade,
         Forn_id: +fornecedor
     };
 

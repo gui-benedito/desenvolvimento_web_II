@@ -20,6 +20,10 @@
             <input type="number" id="inPreco" required value="<%= produto.Prod_preco %>">
         </div>
         <div>
+            <label for="inQuantidade">Quantidade:</label>
+            <input type="number" id="inQuantidade" required value="<%= produto.Prod_quantidade %>">
+        </div>
+        <div>
             <select name="inFornecedor" id="inFornecedor">
                 <% fornecedores.forEach(fornecedor => { %>
                     <option value="<%= fornecedor.Forn_id %>" 

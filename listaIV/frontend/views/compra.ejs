@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compra</title>
+    <script src="/js/cadastroCompra.js" defer></script>
+</head>
+<body>
+    <h2>Cadastrar Compra</h2>
+    <a href="/"><button>voltar</button></a>
+    <form id="cadastrar-compra">
+        <div id="inProdutos">
+            <div>
+                <label for="inQuantidade">Quantidade</label>
+                <input type="number" name="inQuantidade" id="inQuantidade" class="quantidade">
+            </div>
+            <select name="inProduto" id="inProduto">
+                <option value="">Selecione...</option>
+                <% produtos.forEach(produto => { %>
+                    <option value="<%= produto.Prod_cod  %>"><%= produto.Prod_nome %></option>
+                <% }) %>
+            </select>
+        </div>
+        <div>
+            <input type="submit" value="Cadastrar">
+        </div>
+    </form>
+    <% if (!compras.length) { %>
+        <h2>Sem compras cadastradas</h2>
+    <% } else { %>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Produto</th>
+                    <th>Quantidade</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% compras.forEach(compra => { %>
+                    <tr>
+                        <td><%= compra.Compra_id %></td>
+                        <td><%= compra.Produto.Prod_nome %></td>
+                        <td><%= compra.Compra_quantidade %></td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    <% } %>
+</body>
+</html>

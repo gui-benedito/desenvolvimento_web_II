@@ -1,6 +1,5 @@
-import { Table, Column, Model, DataType, BelongsToMany, ForeignKey, AllowNull, HasOne, BelongsTo } from 'sequelize-typescript';
+import { Table, Column, Model, DataType, ForeignKey, BelongsTo } from 'sequelize-typescript';
 import { Fornecedor } from './Fornecedor';
-import { Fornecedor_Produto } from './Fornecedor_Produto';
 
 @Table({
     tableName: 'Produto',
@@ -26,6 +25,12 @@ export class Produto extends Model {
         allowNull: false
     })
     Prod_preco!: number;
+
+    @Column({
+        type: DataType.INTEGER,
+        allowNull: false
+    })
+    Prod_quantidade!: number
 
     @ForeignKey(() => Fornecedor)
     @Column({

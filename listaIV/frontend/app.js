@@ -4,6 +4,7 @@ const cors = require('cors')
 const app = express()
 const produtosServices = require('./services/produtoServices')
 const fornecedorService = require('./services/fornecedorService')
+const compraService = require('./services/compraService')
 
 app.set('view engine', 'ejs')
 app.use(bodyParser.urlencoded({extended: true}))
@@ -52,6 +53,13 @@ app.get('/fornecedor/editar/:id', async (req, res) => {
     const id = req.params.id
     const fornecedor = await fornecedorService.getFornecedorById(id)
     res.render('editarFornecedor', {fornecedor: fornecedor})
+})
+
+//COMPRA
+app.get('/compra', async (req, res) => {
+    const produtos = await produtosServices.getAllProdutos()
+    const compras = await compraService.getAllCompras()
+    res.render('compra', {produtos: produtos, compras: compras})
 })
 
 // APP

@@ -1,10 +1,9 @@
-// PRODUTO
-//CADASTRAR
 const frm = document.getElementById('cadastrar-produto')
 frm.addEventListener('submit', (e) => {
     e.preventDefault();
     const nome = frm.inNome.value;
     const preco = frm.inPreco.value;
+    const quantidade = frm.inQuantidade.value
     const fornecedor = frm.inFornecedor.value;
 
     if (!nome || !preco || !fornecedor) {
@@ -15,6 +14,7 @@ frm.addEventListener('submit', (e) => {
     const produtoData = {
         Prod_nome: nome, 
         Prod_preco: preco,
+        Prod_quantidade: quantidade,
         Forn_id: +fornecedor
     };
 

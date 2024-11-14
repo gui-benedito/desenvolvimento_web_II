@@ -9,6 +9,15 @@
 <body>
     <h2>Fornecedores</h2>
     <a href="/"><button>voltar</button></a>
+    <form id="cadastrar-fornecedor">
+        <div>
+            <label for="inNome">Nome:</label>
+            <input type="text" id="inNome" required>
+        </div>
+        <div>
+            <input type="submit" value="Cadastrar">
+        </div>
+    </form>
     <div id="listaFornecedores">
         <% if (!fornecedores.length) { %>
             <h2>Sem fornecedores cadastrados</h2> 
@@ -31,14 +40,5 @@
             </table>
         <% } %>
     </div>
-    <form id="cadastrar-fornecedor">
-        <div>
-            <label for="inNome">Nome:</label>
-            <input type="text" id="inNome" required>
-        </div>
-        <div>
-            <input type="submit" value="Cadastrar">
-        </div>
-    </form>
 </body>
 </html>
