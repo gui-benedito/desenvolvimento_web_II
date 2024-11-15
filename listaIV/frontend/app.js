@@ -14,21 +14,21 @@ const PORT = 8080
 
 // HOME
 app.get('/', (req, res) => {
-    res.render('index')
+    res.render('base', {title: 'Home', body: 'index'})
 })
 
 // PRODUTO
 app.get('/produto', async (req, res) => {
     const produtos = await produtosServices.getAllProdutos()
     const fornecedores = await fornecedorService.getAllFornecedores()
-    res.render('cadastroProduto', {produtos: produtos, fornecedores: fornecedores})
+    res.render('base', {title: 'Produto', body: 'cadastroProduto', produtos: produtos, fornecedores: fornecedores})
 })
 
 app.get('/produto/editar/:id', async (req, res) => {
     const id = req.params.id
     const produto = await produtosServices.getProdutoByID(id)
     const fornecedores = await fornecedorService.getAllFornecedores()
-    res.render('editarProduto', {produto: produto, fornecedores: fornecedores})
+    res.render('base', {title: 'Editar', body: 'editarProduto', produto: produto, fornecedores: fornecedores})
 })
 
 app.get('/produto/excluir/:id', async (req, res) => {
@@ -40,7 +40,7 @@ app.get('/produto/excluir/:id', async (req, res) => {
 // FORNECEDOR
 app.get('/fornecedor', async (req, res) => {
     const fornecedores = await fornecedorService.getAllFornecedores()
-    res.render('cadastroFornecedor', {fornecedores: fornecedores})
+    res.render('base', {title: 'Fornecedor', body: 'cadastroFornecedor', fornecedores: fornecedores})
 })
 
 app.get('/fornecedor/excluir/:id', async (req, res) => {
@@ -52,14 +52,14 @@ app.get('/fornecedor/excluir/:id', async (req, res) => {
 app.get('/fornecedor/editar/:id', async (req, res) => {
     const id = req.params.id
     const fornecedor = await fornecedorService.getFornecedorById(id)
-    res.render('editarFornecedor', {fornecedor: fornecedor})
+    res.render('base', {title: 'Editar', body: 'editarFornecedor', fornecedor: fornecedor})
 })
 
 //COMPRA
 app.get('/compra', async (req, res) => {
     const produtos = await produtosServices.getAllProdutos()
     const compras = await compraService.getAllCompras()
-    res.render('compra', {produtos: produtos, compras: compras})
+    res.render('base', {title: 'Compra', body: 'compra', produtos: produtos, compras: compras})
 })
 
 // APP

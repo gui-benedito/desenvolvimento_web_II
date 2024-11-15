@@ -1,8 +1,8 @@
-const frm = document.getElementById('cadastrar-compra')
-frm.addEventListener('submit', (e) => {
+const frmCompra = document.getElementById('cadastrar-compra')
+frmCompra.addEventListener('submit', (e) => {
     e.preventDefault()
-    const quantidade = frm.inQuantidade.value
-    const produto = frm.inProduto.value
+    const quantidade = frmCompra.inQuantidade.value
+    const produto = frmCompra.inProduto.value
     
     fetch('http://localhost:5000/compra', {
         method: 'POST',

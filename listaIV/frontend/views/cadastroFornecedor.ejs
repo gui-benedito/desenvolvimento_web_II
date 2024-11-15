@@ -1,44 +1,35 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fornecedores</title>
-    <script src="/js/cadastrarFornecedor.js" defer></script>
-</head>
-<body>
-    <h2>Fornecedores</h2>
-    <a href="/"><button>voltar</button></a>
-    <form id="cadastrar-fornecedor">
-        <div>
-            <label for="inNome">Nome:</label>
-            <input type="text" id="inNome" required>
-        </div>
-        <div>
-            <input type="submit" value="Cadastrar">
-        </div>
-    </form>
-    <div id="listaFornecedores">
-        <% if (!fornecedores.length) { %>
-            <h2>Sem fornecedores cadastrados</h2> 
-        <% } else { %>    
-            <table>
-                <thead>
-                    <tr>
-                        <th>Nome</th>
-                    </tr>
-                </thead>
-                <tbody>      
-                    <% fornecedores.forEach(fornecedor => { %>
-                        <tr>
-                            <td><%= fornecedor.Forn_nome %></td>
-                            <td><a href="/fornecedor/editar/<%= fornecedor.Forn_id %>">Editar</a></td>
-                            <td><a href="/fornecedor/excluir/<%= fornecedor.Forn_id %>">X</a></td>
-                        </tr>
-                    <% }) %>
-                </tbody>
-            </table>
-        <% } %>
+<h2>Fornecedores</h2>
+<a href="/"><button class="main-btn">voltar</button></a>
+<form id="cadastrar-fornecedor">
+    <div>
+        <label for="inNome">Nome:</label>
+        <input type="text" id="inNome" required>
     </div>
-</body>
-</html>
+    <div>
+        <input type="submit" value="Cadastrar" class="main-btn">
+    </div>
+</form>
+<div id="listaFornecedores">
+    <% if (!fornecedores.length) { %>
+        <h2>Sem fornecedores cadastrados</h2> 
+    <% } else { %>    
+        <table>
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th colspan="2">Ações</th>
+                </tr>
+            </thead>
+            <tbody>      
+                <% fornecedores.forEach(fornecedor => { %>
+                    <tr>
+                        <td><%= fornecedor.Forn_nome %></td>
+                        <td><a href="/fornecedor/editar/<%= fornecedor.Forn_id %>">Editar</a></td>
+                        <td><a href="/fornecedor/excluir/<%= fornecedor.Forn_id %>">X</a></td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    <% } %>
+</div>
+<script src="/js/cadastrarFornecedor.js"></script>

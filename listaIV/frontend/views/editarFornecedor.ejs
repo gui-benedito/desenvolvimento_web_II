@@ -1,23 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fornecedores</title>
-    <script src="/js/editarFornecedor.js" defer></script>
-</head>
-<body>
-    <h2>Fornecedores</h2>
-    <a href="/fornecedor"><button>voltar</button></a>
-    <form id="editar-fornecedor">
-        <input type="hidden" name="inId" id="inId" value="<%= fornecedor.Forn_id %>">
-        <div>
-            <label for="inNome">Nome:</label>
-            <input type="text" id="inNome" required value="<%= fornecedor.Forn_nome %>">
-        </div>
-        <div>
-            <input type="submit" value="Editar">
-        </div>
-    </form>
-</body>
-</html>
+<h2>Fornecedores</h2>
+<a href="/"><button class="main-btn">voltar</button></a>
+<form id="editar-fornecedor">
+    <input type="hidden" name="inId" id="inId" value="<%= fornecedor.Forn_id %>">
+    <div>
+        <label for="inNome">Nome:</label>
+        <input type="text" id="inNome" required value="<%= fornecedor.Forn_nome %>">
+    </div>
+    <div>
+        <input type="submit" value="Editar" class="main-btn">
+    </div>
+</form>
+<script src="/js/editarFornecedor.js"></script>
