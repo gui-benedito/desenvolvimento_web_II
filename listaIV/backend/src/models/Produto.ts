@@ -35,10 +35,13 @@ export class Produto extends Model {
     @ForeignKey(() => Fornecedor)
     @Column({
         type: DataType.INTEGER,
-        allowNull: false
+        allowNull: true
     })
     Forn_id: number
 
-    @BelongsTo(() => Fornecedor)
+    @BelongsTo(() => Fornecedor, {
+        onDelete: 'SET NULL',
+        onUpdate: 'CASCADE',
+    })
     Fornecedor!: Fornecedor;
 }

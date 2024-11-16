@@ -22,7 +22,10 @@ export class Fornecedor extends Model {
     })
     Forn_nome!: string;
 
-    @HasMany(() => Produto)
+    @HasMany(() => Produto, {
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
+    })
     Produtos!: Produto[];
 }
 

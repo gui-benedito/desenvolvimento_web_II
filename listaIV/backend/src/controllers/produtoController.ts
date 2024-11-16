@@ -1,4 +1,5 @@
 import { Fornecedor } from '../models/Fornecedor';
+import { Fornecedor_Produto } from '../models/Fornecedor_Produto';
 import { Produto } from '../models/Produto';
 
 export const produtoController = {
@@ -12,6 +13,11 @@ export const produtoController = {
                 Prod_quantidade,
                 Forn_id
             });
+
+            const relacionar = await Fornecedor_Produto.create({
+                Forn_id: produto.Forn_id,
+                Prod_cod: produto.Prod_cod
+            })
 
             return res.status(201).json({ success: true, produto });
         }

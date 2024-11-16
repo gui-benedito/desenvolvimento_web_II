@@ -20,13 +20,21 @@ export default class Compra extends Model{
     })
     Compra_quantidade!: number
 
+    @Column({
+        type: DataType.DECIMAL(10,2)
+    })
+    Compra_valor!: number
+
     @ForeignKey(() => Produto)
     @Column({
         type: DataType.INTEGER,
-        allowNull: false
+        allowNull: true
     })
     Prod_cod!: number;
 
-    @BelongsTo(() => Produto)
+    @BelongsTo(() => Produto, {
+        onDelete: 'SET NULL',
+        onUpdate: 'CASCADE',
+    })
     Produto!: Produto;
 }

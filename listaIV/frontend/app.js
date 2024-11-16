@@ -59,7 +59,10 @@ app.get('/fornecedor/editar/:id', async (req, res) => {
 app.get('/compra', async (req, res) => {
     const produtos = await produtosServices.getAllProdutos()
     const compras = await compraService.getAllCompras()
-    res.render('base', {title: 'Compra', body: 'compra', produtos: produtos, compras: compras})
+    const total = compras.reduce((acumulador, compra) => 
+        acumulador + parseFloat(compra.Compra_valor)
+    , 0)
+    res.render('base', {title: 'Compra', body: 'compra', produtos: produtos, compras: compras, total: total})
 })
 
 // APP

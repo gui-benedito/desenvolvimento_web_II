@@ -29,16 +29,26 @@
                 <th>ID</th>
                 <th>Produto</th>
                 <th>Quantidade</th>
+                <th>Valor</th>
             </tr>
         </thead>
         <tbody>
             <% compras.forEach(compra => { %>
                 <tr>
                     <td><%= compra.Compra_id %></td>
-                    <td><%= compra.Produto.Prod_nome %></td>
+                    <% if (!compra.Produto?.Prod_nome) { %> 
+                        <td>Produto depreciado</td>
+                    <% } else { %>
+                        <td><%= compra.Produto.Prod_nome %></td>
+                    <% } %> 
                     <td><%= compra.Compra_quantidade %></td>
+                    <td><%= compra.Compra_valor %></td>
                 </tr>
             <% }) %>
+            <tr>
+                <td colspan="3"><strong>Total</strong></td>
+                <td><%= total %></td>
+            </tr>
         </tbody>
     </table>
 <% } %>

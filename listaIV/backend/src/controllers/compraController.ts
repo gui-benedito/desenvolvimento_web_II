@@ -6,13 +6,15 @@ export const compraController = {
     save: async (req, res) => {
         try {
             const { Compra_id, Compra_quantidade, Prod_cod } = req.body
+            const produto = await Produto.findByPk(Prod_cod);
+
             const compra = await Compra.create({
                 Compra_id,
                 Compra_quantidade,
-                Prod_cod
+                Prod_cod,
+                Compra_valor: Compra_quantidade * produto.Prod_preco
             })
 
-            const produto = await Produto.findByPk(Prod_cod);
             if (produto) {
                 const nova_quantidade = produto.Prod_quantidade - Compra_quantidade;
                 await produto.update({ Prod_quantidade: nova_quantidade });
